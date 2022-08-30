@@ -349,34 +349,35 @@ const getScatterChartLayout = () => {
       orientation: 'v',
     },
     height: 700,
-    showlegend: false,
+    showlegend: true,
+    template: "plotly_white", 
     legend: {
       title: {
-        text: 'Solvers',
+        text: '<b>Solvers</b>',
       },
       orientation: 'h',
       xanchor: 'center',
       yanchor: 'top',
-      y: -.2,
+      y: 1.1,
       x: .5
     },
     xaxis: {
       type: getScale().xaxis,
-      title: 'Time [sec]',
+      title: 'Time in seconds',
       tickformat: '.1e',
       tickangle: -45,
-      gridcolor: '#ffffff',
+      // gridcolor: '#ffffff',
       zeroline : false,
     },
     yaxis: {
       type: getScale().yaxis,
       title: getYLabel(),
       tickformat: '.1e',
-      gridcolor: '#ffffff',
+      // gridcolor: '#ffffff',
       zeroline : false,
     },
-    title: `${state().objective}<br />Data: ${state().dataset}`,
-    plot_bgcolor: '#e5ecf6',
+    // title: `${state().objective}<br />Data: ${state().dataset}`,
+    // plot_bgcolor: '#e5ecf6',
   };
 
   if (isSmallScreen()) {
@@ -454,7 +455,7 @@ const getYLabel = () => {
     case 'objective_curve':
       return 'F(x)';
     case 'suboptimality_curve':
-      return 'F(x) - F(x*)';
+      return "sub optimality" // 'F(x) - F(x*)';
     case 'relative_suboptimality_curve':
       return 'F(x) - F(x*) / F(x0) - F(x*)'
     case 'bar_chart':

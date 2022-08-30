@@ -4,6 +4,11 @@ from .helpers_compat import get_figure
 from .helpers_compat import add_h_line
 from .helpers_compat import fill_between_x
 
+import plotly.io as pio
+
+pio.templates.default = "plotly_white"
+
+
 CMAP = plt.get_cmap('tab20')
 
 html_solver_styles = {}
