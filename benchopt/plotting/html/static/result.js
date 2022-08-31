@@ -376,6 +376,9 @@ const getScatterChartLayout = () => {
       // gridcolor: '#ffffff',
       zeroline : false,
     },
+    font: {
+      family: "Roman serif font"
+    }
     // title: `${state().objective}<br />Data: ${state().dataset}`,
     // plot_bgcolor: '#e5ecf6',
   };
