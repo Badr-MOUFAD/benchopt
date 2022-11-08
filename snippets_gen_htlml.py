@@ -1,10 +1,12 @@
-from benchopt.plotting.generate_html import plot_benchmark_html
-from benchopt.benchmark import Benchmark
+# execute this file to generate html file
+# html file will be created in DIR_BENCH
 
 from pathlib import Path
+from benchopt.plotting.generate_html import plot_benchmark_html
 
 
-DIR_BENCH = "data_resnet"
+DIR_BENCH = "data_lasso"
+OUTPUT_FILE = "benchmark_lasso_benchopt_run_preprint22.csv"
 
 
 class PseudoBenchmark:
@@ -16,11 +18,8 @@ class PseudoBenchmark:
         return Path(DIR_BENCH)
 
 
-fname = Path(
-    f'{DIR_BENCH}/benchmark_resnet_classif_benchopt_run_2022-05-03_10h31m54.csv')
-
 plot_benchmark_html(
-    fname,
+    fnames=Path(f'{DIR_BENCH}/{OUTPUT_FILE}'),
     benchmark=PseudoBenchmark(),
     kinds={'name': "setting_name", 'config_file': 'config_file',
            'benchmark_name': 'benchmark_name'}
