@@ -531,16 +531,64 @@ const handleSolverDoubleClick = solver => {
 /**
  * Creates the legend at the bottom of the plot.
  */
-const makeLegend = () => {
+ const makeLegend = () => {
   const legend = document.getElementById('plot_legend');
 
   legend.innerHTML = '';
+
+  var meta_solver = null;
+  var p_solver_button = null;
+  var p_solver_div = null;
 
   Object.keys(data().solvers).forEach(solver => {
     const color = data().solvers[solver].color;
     const symbolNumber = data().solvers[solver].marker;
 
-    legend.appendChild(createLegendItem(solver, color, symbolNumber));
+    const current_solver = solver.split("[")[0];
+    if (current_solver != meta_solver) {
+      p_solver_button = document.createElement("button");
+      p_solver_button.className = 'filter-solver';
+      p_solver_div = document.createElement("div");
+      p_solver_div.style.display = state().hidden_boxes.includes(current_solver) ? "none" : "block";
+
+      // drop down event
+      p_solver_button.addEventListener('click', function () {
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+
+          let arr = [];
+          for (let ele of panel.children) {
+            arr.push(
+              ele.querySelector(".solver").firstChild.nodeValue
+            )
+          }
+
+          setState({
+            hidden_solvers: state().hidden_solvers.concat(arr),
+            hidden_boxes: state().hidden_boxes.concat(current_solver)
+          })
+        } else {
+
+          let arr = [];
+          for (let ele of panel.children) {
+            arr.push(
+              ele.querySelector(".solver").firstChild.nodeValue
+            )
+          }
+          setState({
+            hidden_solvers: state().hidden_solvers.filter(hidden => !arr.includes(hidden)),
+            hidden_boxes: state().hidden_boxes.filter(hidden => !(hidden === current_solver))
+          }
+          )
+        }
+      })
+
+      p_solver_button.innerText = current_solver;
+      legend.appendChild(p_solver_button);
+      legend.appendChild(p_solver_div);
+      meta_solver = current_solver;
+    }
+    p_solver_div.appendChild(createLegendItem(solver, color, symbolNumber));
   });
 }
 
