@@ -169,7 +169,7 @@ Citing Benchopt
 
 If you use ``Benchopt`` in a scientific publication, please cite the following paper
 
-.. literalinclude:: ./CITATIONS
+.. literalinclude:: CITATIONS.bib
    :language: bibtex
 
 
