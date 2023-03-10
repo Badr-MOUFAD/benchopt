@@ -169,20 +169,8 @@ Citing Benchopt
 
 If you use ``Benchopt`` in a scientific publication, please cite the following paper
 
-.. code-block:: bibtex
-
-   @inproceedings{benchopt,
-      author = {Moreau, Thomas and Massias, Mathurin and Gramfort, Alexandre and Ablin, Pierre
-                and Bannier, Pierre-Antoine and Charlier, Benjamin and Dagréou, Mathieu and Dupré la Tour, Tom
-                and Durif, Ghislain and F. Dantas, Cassio and Klopfenstein, Quentin
-                and Larsson, Johan and Lai, En and Lefort, Tanguy and Malézieux, Benoit
-                and Moufad, Badr and T. Nguyen, Binh and Rakotomamonjy, Alain and Ramzi, Zaccharie
-                and Salmon, Joseph and Vaiter, Samuel},
-      title  = {Benchopt: Reproducible, efficient and collaborative optimization benchmarks},
-      year   = {2022},
-      booktitle = {NeurIPS},
-      url    = {https://arxiv.org/abs/2206.13424}
-   }
+.. literalinclude:: ./CITATIONS
+   :language: bibtex
 
 
 .. |Test Status| image:: https://github.com/benchopt/benchopt/actions/workflows/test.yml/badge.svg
