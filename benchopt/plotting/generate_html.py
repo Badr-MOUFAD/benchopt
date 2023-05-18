@@ -11,8 +11,7 @@ from benchopt.benchmark import Benchmark
 from ..constants import PLOT_KINDS
 from .plot_bar_chart import computeBarChartData  # noqa: F401
 from .plot_objective_curve import compute_quantiles   # noqa: F401
-from .plot_objective_curve import get_solver_color   # noqa: F401
-from .plot_objective_curve import get_solver_marker  # noqa: F401
+from .plot_objective_curve import get_solver_style
 
 ROOT = Path(__file__).parent / "html"
 DEFAULT_HTML_DIR = Path("html")
@@ -181,21 +180,49 @@ def shape_solvers_for_html(df, objective_column):
         df_filtered = df_filtered.replace([np.inf, -np.inf], np.nan)
         df_filtered = df_filtered.dropna(subset=[objective_column])
 
+        # compute median of 'time' and objective_column
+        fields = ["time", objective_column]
+        groupby_stop_val_median = df_filtered.groupby('stop_val')
+        groupby_stop_val_median = groupby_stop_val_median[fields]
+        groupby_stop_val_median = groupby_stop_val_median.median()
+
         q1, q9 = compute_quantiles(df_filtered)
+
+        color, marker = get_solver_style(solver)
+        # to preserve support of previous benchopt version
+        # where 'stopping_strategy' wasn't saved in solver meta
+        try:
+            stopping_strategy = df_filtered['stopping_strategy'].unique()
+        except KeyError:
+            stopping_strategy = ["Time"]
+
+        if len(stopping_strategy) != 1:
+            found_stopping_strategies = ', '.join(
+                f"`{item}`" for item in stopping_strategy
+            )
+
+            raise Exception(
+                "Solver can be run using only one stopping strategy. "
+                f"Expected one stopping strategy "
+                f"but found {found_stopping_strategies}"
+            )
+
+        stopping_strategy = stopping_strategy[0]
+
         solver_data[solver] = {
             'scatter': {
-                'x': df_filtered.groupby('stop_val')['time']
-                                .median().tolist(),
-                'y': df_filtered.groupby('stop_val')[objective_column]
-                                .median().tolist(),
+                'x': groupby_stop_val_median['time'].tolist(),
+                'y': groupby_stop_val_median[objective_column].tolist(),
+                'stop_val': groupby_stop_val_median.index.tolist(),
                 'q1': q1.tolist(),
                 'q9': q9.tolist(),
             },
             'bar': {
                 **computeBarChartData(df, objective_column, solver)
             },
-            'color': get_solver_color(solver),
-            'marker': get_solver_marker(solver)
+            'color': color,
+            'marker': marker,
+            'stopping_strategy': stopping_strategy
         }
 
     return solver_data
