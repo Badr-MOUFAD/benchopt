@@ -5,10 +5,28 @@ What's new
 
 .. currentmodule:: benchopt
 
+.. _changes_1_5:
+
+Version 1.5 (dev)
+-----------------
+
+API
+~~~
+
+- ``Solver.support_sparse`` attribute is deprecated in favor of the use of
+``Solver.skip``, by `Mathurin Massias`_ (:gh:`614`).
+
+- ``stopping_strategy`` attribute is replaced by ``sampling_strategy`` to clarify
+  the concept, by `Mathurin Massias`_ (:gh:`585`).
+
+- Add ``Solver.warm_up`` function for explicit warmup instructions, such as
+  empty run for jitting. This function is called only once per solver.
+  By `Pierre Ablin`_ (:gh:`602`).
+
 .. _changes_1_4:
 
-Version 1.4 - in development
-----------------------------
+Version 1.4 - 03/07/2023
+------------------------
 
 CLI
 ~~~
@@ -16,9 +34,15 @@ CLI
 - Add support for minute and hour unit suffix in timeout limit through the syntax
   ``--timeout 10m`` or ``--timeout 1h``.
   By `Mathurin Massias`_ (:gh:`535`).
+- Remove deprecated ``-o/--objective-filter`` option in ``benchopt run``.
+  By `Thomas Moreau`_ (:gh:`569`)
+
 
 API
 ~~~
+
+- The ``get_next`` method of :class:`~benchopt.BaseSolver` is no longer static.
+  By `Badr Moufad`_ (:gh:`566`)
 
 - Add :class:`~benchopt.stopping_criterion.SingleRunCriterion` to run a solver
   only once. This can be used for benchmarking methods where we are interested
@@ -30,8 +54,18 @@ API
 - Add :func:`~benchopt.BaseSolver.pre_run_hook` hook to ignore cost that cannot
   be cached globally for a solver. By `Thomas Moreau`_ (:gh:`525`)
 
+- Remove deprecated ``Objective.to_dict``, ``safe_import_context.import_from``.
+  Force implementation of :method:`benchopt.Objective.get_one_solution`.
+  By `Thomas Moreau`_ (:gh:`569`)
+
 PLOT
 ~~~~
+
+- Add a tooltip beside to show description of objective. Description is provided as docstring of
+  the :class:`~benchopt.BaseObjective` class. By `Badr Moufad`_ (:gh:`556`)
+
+- Show solver description when hovering over solvers. Description is provided as docstring of
+  the :class:`~benchopt.BaseSolver` class. By `Badr Moufad`_ (:gh:`543`)
 
 - Enable visualizing the objective as function of ``stopping_criterion``: time,
   iteration, or tolerance. By `Badr Moufad`_ (:gh:`479`)

@@ -6,7 +6,7 @@
 
 ----
 
-|Test Status| |codecov| |Python 3.6+| |install-per-months| |discord| 
+|Test Status| |codecov| |Python 3.6+| |install-per-months| |discord| |SWH|
 
 ``Benchopt`` is a benchmarking suite for optimization algorithms.
 It is built for simplicity, transparency, and reproducibility.
@@ -199,6 +199,9 @@ Available benchmarks
    * - `ResNet Classification <https://github.com/benchopt/benchmark_resnet_classif>`_
      - `Results <https://benchopt.github.io/results/benchmark_resnet_classif.html>`__
      - |Build Status ResNetClassif|
+   * - `Bilevel Optimization <https://github.com/benchopt/benchmark_bilevel>`_
+     - `Results <https://benchopt.github.io/results/benchmark_bilevel.html>`__
+     - |Build Status Bilevel|
 
 
 
@@ -209,11 +212,12 @@ Available benchmarks
    :target: https://www.python.org/downloads/release/python-360/
 .. |codecov| image:: https://codecov.io/gh/benchopt/benchopt/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/benchopt/benchopt
+.. |SWH| image:: https://archive.softwareheritage.org/badge/origin/https://github.com/benchopt/benchopt/
+    :target: https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/benchopt/benchopt
 .. |discord| image:: https://dcbadge.vercel.app/api/server/EA2HGQb7nv?style=flat
    :target: https://discord.gg/EA2HGQb7nv
 .. |install-per-months| image:: https://static.pepy.tech/badge/benchopt/month
    :target: https://pepy.tech/project/benchopt
-
 
 .. |Build Status OLS| image:: https://github.com/benchopt/benchmark_ols/workflows/Tests/badge.svg
    :target: https://github.com/benchopt/benchmark_ols/actions
@@ -247,3 +251,5 @@ Available benchmarks
    :target: https://github.com/benchopt/benchmark_tv_2d/actions
 .. |Build Status ResNetClassif| image:: https://github.com/benchopt/benchmark_resnet_classif/workflows/Tests/badge.svg
    :target: https://github.com/benchopt/benchmark_resnet_classif/actions
+.. |Build Status Bilevel| image:: https://github.com/benchopt/benchmark_bilevel/workflows/Tests/badge.svg
+   :target: https://github.com/benchopt/benchmark_bilevel/actions

@@ -99,26 +99,26 @@ we get
 
 .. _sampling_strategy:
 
-Changing the strategy to grow the :code:`stop_val`
---------------------------------------------------
+Changing the strategy to grow the computational budget (:code:`stop_val`)
+------------------------------------------------------------------------
 
-By default, the number of iterations or the variation of the tolerance
-between  two evaluations of the objective is exponential. However, in
-some cases, this exponential growth might hide some effects, or might
-not be adapted to a given solver.
+Benchopt varies the computational budget by varying either the number
+of iterations or the tolerance given to the method. The default policy is
+to vary these two quantities exponentially between two evaluations of the
+objective. However, in some cases, this exponential growth might hide some
+effects, or might not be adapted to a given solver.
 
 The way this value is changed can be specified for each solver by
-implementing a static  ``get_next`` method in the ``Solver`` class.
+implementing a ``get_next`` method in the ``Solver`` class.
 This method takes as input the previous value where the objective
-function have been logged, and output the next one. For instance,
+function has been logged, and outputs the next one. For instance,
 if a solver needs to be evaluated every 10 iterations, we would have
 
 .. code-block::
 
     class Solver(BaseSolver):
         ...
-        @staticmethod
-        def get_next(stop_val):
+        def get_next(self, stop_val):
             return stop_val + 10
 
 
@@ -169,13 +169,15 @@ Caching pre-compilation and warmup effects
 For some solvers, such as solver relying on just-in-time compilation with
 ``numba`` or ``jax``, the first iteration might be longer due to "warmup"
 effects. To avoid having such effect in the benchmark results, it is usually
-advised to call the solver once before running the benchmark, in the
-``Solver.set_objective`` method. For solvers with ``stopping_strategy`` in
-``{'tolerance',  'iteration'}``, simply calling the ``Solver.run`` with a
-simple enough value is usually enough. For solvers with ``stopping_strategy``
-set to ``'callback'``, it is possible to call ``Solver.run_once``, which will
-call the ``run`` method with a simple callback that does not compute the
-objective value and stops after ``n_iter`` calls to callback (default to 1).
+advised to call the solver once before running the benchmark. This should be
+implemented in the ``Solver.warm_up`` method, which is empty by default and
+called after the `set_objective` method. For solvers with
+``sampling_strategy`` in ``{'tolerance',  'iteration'}``, simply calling the
+``Solver.run`` with a simple enough value is usually enough. For solvers with
+``sampling_strategy`` set to ``'callback'``, it is possible to call
+``Solver.run_once``, which will call the ``run`` method with a simple callback
+that does not compute the objective value and stops after ``n_iter`` calls to
+callback (default to 1).
 
 
 .. code-block:: python
@@ -183,12 +185,11 @@ objective value and stops after ``n_iter`` calls to callback (default to 1).
     class Solver(BaseSolver):
         ...
 
-        def set_objective(self, **objective):
-            ...
+        def warm_up(self):
             # Cache pre-compilation and other one-time setups that should
             # not be included in the benchmark timing.
-            self.run(1)  # For stopping_strategy == 'iteration' | 'tolerance'
-            self.run_once()  # For stopping_strategy == 'callback'
+            self.run(1)  # For sampling_strategy == 'iteration' | 'tolerance'
+            self.run_once()  # For sampling_strategy == 'callback'
 
 
 .. |update_params| replace:: ``update_parameters``
